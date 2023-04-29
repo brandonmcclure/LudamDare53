@@ -17,28 +17,36 @@ defmodule GameWeb.MyGrid do
 
   """
   attr :title,:string, required: true
+  attr :grid_x,:integer, default: 4
+  attr :grid_y,:integer, default: 4
   attr :rest, :global, include: ~w(form)
   slot :inner_block, required: true
   def grid(assigns) do
-    ~H"""
-    <div style = "display: grid;  grid-gap: 10px;  grid-template-columns: repeat(2, [col] auto);  grid-template-rows: repeat(2, [row] auto);  background-color: #fff;  color: #444;";>
 
-    <div style ="grid-column:1; grid-row:1";>
-    <GameWeb.MyComponents.button phx-click="delivery">Click here to deliver thing</GameWeb.MyComponents.button>
+    style = ~s"display: grid;  grid-gap: 10px;  grid-template-columns: repeat(#{@grid_x}, [col] auto);  grid-template-rows: repeat(#{@grid_y}, [row] auto);  background-color: #fff;  color: #444;"
+    assigns = assign(assigns, style: style)
+    ~H"""
+    <div style ={@style};>
+      <GameWeb.MyGrid.grid_cell grid_x={1} grid_y={1} />
+      <GameWeb.MyGrid.grid_cell grid_x={1} grid_y={2} />
+      <GameWeb.MyGrid.grid_cell grid_x={2} grid_y={1} />
+      <GameWeb.MyGrid.grid_cell grid_x={2} grid_y={2} />
     </div>
-    <div style ="grid-column:1; grid-row:2";>
-    <GameWeb.MyComponents.button phx-click="delivery">Click here to deliver thing</GameWeb.MyComponents.button>
-    </div>
-    <div style ="grid-column:2; grid-row:1";>
-    <GameWeb.MyComponents.button phx-click="delivery">Click here to deliver thing</GameWeb.MyComponents.button>
-    </div>
-    <div style ="grid-column:2; grid-row:2";>
-    <GameWeb.MyComponents.button phx-click="delivery">Click here to deliver thing</GameWeb.MyComponents.button>
-    </div>
-    </div>
-      <%= render_slot(@inner_block) %>
     """
   end
+  attr :grid_x,:integer, required: true
+  attr :grid_y,:integer, required: true
+  attr :rest, :global, include: ~w(form)
+  def grid_cell(assigns) do
 
+    style = ~s("grid-column:#{@grid_x}; grid-row:#{@grid_y}")
+    assigns = assign(assigns, style: style)
+    ~H"""
+    x: <%= @grid_x %> y: <%= @grid_y %>
+    <div style={@style};>
+    <GameWeb.MyComponents.button phx-click="delivery"><img id="image" src="images/truck.png" /></GameWeb.MyComponents.button>
+    </div>
+    """
+  end
 
 end
