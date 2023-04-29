@@ -17,7 +17,7 @@ defmodule GameWeb.Router do
   scope "/", GameWeb do
     pipe_through :browser
 
-    live "/", BoardLive, :index
+    live "/", BoardLive
   end
 
   # Other scopes may use custom stacks.
