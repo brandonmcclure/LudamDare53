@@ -22,11 +22,7 @@ end
 
 if config_env() == :prod do
   database_path =
-    System.get_env("DATABASE_PATH") ||
-      raise """
-      environment variable DATABASE_PATH is missing.
-      For example: /etc/game/game.db
-      """
+    System.get_env("DATABASE_PATH") ||  Path.expand("../game_test.db", Path.dirname(__ENV__.file))
 
   config :game, Game.Repo,
     database: database_path,
@@ -44,8 +40,8 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "example.com"
-  port = String.to_integer(System.get_env("PORT") || "4000")
+  host = System.get_env("PHX_HOST") || "ludamdare53.fly.dev/"
+  port = String.to_integer(System.get_env("PORT") || "443")
 
   config :game, GameWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
