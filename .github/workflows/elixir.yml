@@ -6,13 +6,13 @@ on:
     branches:
       - main
     paths: 
-      - 'game/*'
+      - 'game/**/*'
       - '.github/workflows/elixir.yml'
   pull_request:
     branches:
       - main
     paths:
-      - 'game/*'
+      - 'game/**/*'
       - '.github/workflows/elixir.yml'
 
 jobs:
