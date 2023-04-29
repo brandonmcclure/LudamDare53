@@ -23,10 +23,6 @@ defmodule GameWeb.MyGrid do
   slot :inner_block, required: true
   def grid(assigns) do
 
-    style = ~s"display: grid;  grid-gap: 10px;  grid-template-columns: repeat(#{@grid_x}, [col] auto);  grid-template-rows: repeat(#{@grid_y}, [row] auto);  background-color: #fff;  color: #444;"
-    style_str = "\"display: grid;  grid-gap: 10px;  grid-template-columns: repeat(#{@grid_x}, [col] auto);  grid-template-rows: repeat(#{@grid_y}, [row] auto);  background-color: #fff;  color: #444;\""
-    assigns = assign(assigns, style: style)
-    assigns = assign(assigns, style_str: style_str)
     ~H"""
     <div style={"display:grid;  grid-gap:10px;  grid-template-columns:repeat("<>(@grid_x |> Integer.to_string())<>", [col] auto);  grid-template-rows:repeat("<>(@grid_y|> Integer.to_string())<>", [row] auto);  background-color:#fff;  color:#444;>"}>
       <GameWeb.MyGrid.grid_cell grid_x={1} grid_y={1} />
