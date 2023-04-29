@@ -8,23 +8,20 @@ defmodule GameWeb.BoardLive do
     {:ok,
      socket
      |> assign(:score, 0)
-     |> assign(:page_title, "Listing Boards")}
+     |> assign(:page_title, "Listing Boards")
+    }
   end
-
-  @impl true
-  def handle_params(_params, _url, socket) do
-    {:noreply, socket}
+  def incScore(score) do
+    score+1
   end
-
   @impl true
   def handle_event("delivery", _params, socket) do
-    dbg("here")
+    dbg("handle delivery")
 
-    new_socket =
-      Ecto.Changeset.change(socket.assigns.score, %{
-        score: socket.assigns.score + 1
-      })
+    new_socket = socket
+      |> assign(:score, incScore(socket.assigns.score))
 
     {:noreply, new_socket}
   end
+
 end
