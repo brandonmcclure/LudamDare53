@@ -1,4 +1,4 @@
-defmodule GameWeb.BoardLive.Index do
+defmodule GameWeb.BoardLive do
   use GameWeb, :live_view
 
   alias Game.Engine
