@@ -1,9 +1,6 @@
 defmodule GameWeb.BoardLive do
   use GameWeb, :live_view
 
-  alias Game.Engine
-  alias Game.Engine.{Board}
-
   @impl true
   def mount(_params, _session, socket) do
     dbg("Mounting new socket")
@@ -15,7 +12,7 @@ defmodule GameWeb.BoardLive do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
+  def handle_params(_params, _url, socket) do
     {:noreply, socket}
   end
 
