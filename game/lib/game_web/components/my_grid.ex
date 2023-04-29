@@ -24,9 +24,11 @@ defmodule GameWeb.MyGrid do
   def grid(assigns) do
 
     style = ~s"display: grid;  grid-gap: 10px;  grid-template-columns: repeat(#{@grid_x}, [col] auto);  grid-template-rows: repeat(#{@grid_y}, [row] auto);  background-color: #fff;  color: #444;"
+    style_str = "\"display: grid;  grid-gap: 10px;  grid-template-columns: repeat(#{@grid_x}, [col] auto);  grid-template-rows: repeat(#{@grid_y}, [row] auto);  background-color: #fff;  color: #444;\""
     assigns = assign(assigns, style: style)
+    assigns = assign(assigns, style_str: style_str)
     ~H"""
-    <div style ={@style};>
+    <div style={"display:grid;  grid-gap:10px;  grid-template-columns:repeat("<>(@grid_x |> Integer.to_string())<>", [col] auto);  grid-template-rows:repeat("<>(@grid_y|> Integer.to_string())<>", [row] auto);  background-color:#fff;  color:#444;>"}>
       <GameWeb.MyGrid.grid_cell grid_x={1} grid_y={1} />
       <GameWeb.MyGrid.grid_cell grid_x={1} grid_y={2} />
       <GameWeb.MyGrid.grid_cell grid_x={2} grid_y={1} />
@@ -42,7 +44,6 @@ defmodule GameWeb.MyGrid do
     style = ~s("grid-column:#{@grid_x}; grid-row:#{@grid_y}")
     assigns = assign(assigns, style: style)
     ~H"""
-    x: <%= @grid_x %> y: <%= @grid_y %>
     <div style={@style};>
     <GameWeb.MyComponents.button phx-click="delivery"><img id="image" src="images/truck.png" /></GameWeb.MyComponents.button>
     </div>
