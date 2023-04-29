@@ -1,0 +1,59 @@
+name: Elixir CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths: 
+      - 'game/*'
+      - '.github/workflows/elixir.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'game/*'
+      - '.github/workflows/elixir.yml'
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: '1.14.2'
+        otp-version: '24.0.6'
+    - name: Restore dependencies cache
+      uses: actions/cache@v2
+      with:
+        path: deps
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-mix-
+    - name: Install mix dependencies
+      run: mix deps.get
+      working-directory: ./game
+    - name: Check unused mix dependencies
+      run: mix deps.unlock --check-unused
+      working-directory: ./game
+    - name: Check code format
+      run: mix format --check-formatted
+      working-directory: ./game
+    - name: Install yarn dependencies
+      run: yarn --cwd assets
+      working-directory: ./game
+    - name: Compile assets
+      run: cd assets && ./node_modules/.bin/webpack --mode development
+      working-directory: ./game
+    - name: Compile elixir deps
+      run: MIX_ENV=test mix deps.compile
+      working-directory: ./game
+    - name: Compile elixir project
+      run: MIX_ENV=test mix compile --force --warnings-as-errors
+      working-directory: ./game
+    - name: Run tests
+      run: mix test
+      working-directory: ./game
