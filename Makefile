@@ -19,6 +19,8 @@ REGISTRY_NAME :=
 REPOSITORY_NAME := bmcclure89/
 IMAGE_NAME := ludamdare53
 TAG := :latest
+ELIXIR_SOURCE_PATH := game/
+CD_TO_ELIXIR_SOURCE_PATH := cd $(ELIXIR_SOURCE_PATH);
 
 # Run Options
 RUN_PORTS := -p 3000:3000
@@ -45,3 +47,24 @@ publish:
 int: lint_makefile
 lint_makefile:
 	docker run -v $${PWD}:/tmp/lint -e ENABLE_LINTERS=MAKEFILE_CHECKMAKE oxsecurity/megalinter-ci_light:v6.10.0
+
+# elixir/mix
+elixir_clean:
+	$(CD_TO_ELIXIR_SOURCE_PATH)mix ecto.drop
+elixir_migrate:
+	$(CD_TO_ELIXIR_SOURCE_PATH)mix ecto.migrate
+elixir_deps:
+	$(CD_TO_ELIXIR_SOURCE_PATH)mix deps.get
+	$(CD_TO_ELIXIR_SOURCE_PATH)mix ecto.create
+elixir_run: elixir_deps
+	$(CD_TO_ELIXIR_SOURCE_PATH)mix phx.server
+elixir_runi:
+	Remove-Alias -Name iex -force; $(CD_TO_ELIXIR_SOURCE_PATH)iex -S mix phx.server
+elixir_test: elixir_deps
+	$(CD_TO_ELIXIR_SOURCE_PATH)mix test
+elixir_test_coverage:
+	$(CD_TO_ELIXIR_SOURCE_PATH)$$env:MIX_ENV=test mix do coveralls.json
+elixir_test_coverage_web:
+	$(CD_TO_ELIXIR_SOURCE_PATH)$$env:MIX_ENV=test coveralls.html
+elixir_lint:
+	$(CD_TO_ELIXIR_SOURCE_PATH)mix format
