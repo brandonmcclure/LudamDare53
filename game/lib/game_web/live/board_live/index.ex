@@ -2,46 +2,35 @@ defmodule GameWeb.BoardLive.Index do
   use GameWeb, :live_view
 
   alias Game.Engine
-  alias Game.Engine.Board
+  alias Game.Engine.{Board}
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :boards, Engine.list_boards())}
+    dbg("Mounting new socket")
+
+    {:ok, socket
+      |> assign(:score, 0)
+      |> assign(:page_title, "Listing Boards")
+    }
   end
 
   @impl true
   def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    {:noreply, socket}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Board")
-    |> assign(:board, Engine.get_board!(id))
-  end
-
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New Board")
-    |> assign(:board, %Board{})
-  end
-
-  defp apply_action(socket, :index, _params) do
-    socket
-    |> assign(:page_title, "Listing Boards")
-    |> assign(:board, nil)
-  end
 
   @impl true
-  def handle_info({GameWeb.BoardLive.FormComponent, {:saved, board}}, socket) do
-    {:noreply, stream_insert(socket, :boards, board)}
-  end
+  def handle_event("delivery", _params, socket) do
+    dbg("here")
+    new_socket =
+      Ecto.Changeset.change(socket.assigns.score, %{
+        score: socket.assigns.score + 1
+      })
 
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    board = Engine.get_board!(id)
-    {:ok, _} = Engine.delete_board(board)
 
-    {:noreply, stream_delete(socket, :boards, board)}
+    {:noreply,
+        new_socket
+    }
   end
 end
