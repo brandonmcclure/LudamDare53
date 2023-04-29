@@ -8,7 +8,7 @@ defmodule GameWeb.BoardLive do
     {:ok,
      socket
      |> assign(:score, 0)
-     |> assign(:page_title, "Listing Boards")
+     |> assign(:page_title, "Delivery - Map 1")
     }
   end
   def incScore(score) do

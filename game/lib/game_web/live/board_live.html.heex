@@ -1,6 +1,9 @@
 <section class="container">
-  <h1>SHOP</h1>
-  score here: <%= assigns[:score] || 0 %>
 
-  <button phx-click="delivery">Click here to deliver thing</button>
 </section>
+ <GameWeb.MyComponents.container title="Map 1">
+      <div>
+        <p>Things delivered: <%= assigns[:score] || 0 %></p>
+        <GameWeb.MyComponents.button phx-click="delivery">Click here to deliver thing</GameWeb.MyComponents.button>
+      </div>
+    </GameWeb.MyComponents.container>
