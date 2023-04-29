@@ -22,7 +22,7 @@ end
 
 if config_env() == :prod do
   database_path =
-    System.get_env("DATABASE_PATH") ||  Path.expand("../game_test.db", Path.dirname(__ENV__.file))
+    System.get_env("DATABASE_PATH") || Path.expand("../game.db", Path.dirname(__ENV__.file))
 
   config :game, Game.Repo,
     database: database_path,

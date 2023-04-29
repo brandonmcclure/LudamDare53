@@ -15,14 +15,9 @@ defmodule GameWeb.BoardLiveTest do
 
   describe "Index" do
     setup [:create_board]
-
-
   end
 
   describe "Show" do
     setup [:create_board]
-
-
-
   end
 end
