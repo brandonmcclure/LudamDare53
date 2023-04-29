@@ -1,6 +1,19 @@
 name: Elixir CI
 
-on: push
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths: 
+      - 'game/*'
+      - '.github/workflows/elixir.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'game/*'
+      - '.github/workflows/elixir.yml'
 
 jobs:
   build:
@@ -22,17 +35,25 @@ jobs:
         restore-keys: ${{ runner.os }}-mix-
     - name: Install mix dependencies
       run: mix deps.get
+      working-directory: ./game
     - name: Check unused mix dependencies
       run: mix deps.unlock --check-unused
+      working-directory: ./game
     - name: Check code format
       run: mix format --check-formatted
+      working-directory: ./game
     - name: Install yarn dependencies
       run: yarn --cwd assets
+      working-directory: ./game
     - name: Compile assets
       run: cd assets && ./node_modules/.bin/webpack --mode development
+      working-directory: ./game
     - name: Compile elixir deps
       run: MIX_ENV=test mix deps.compile
+      working-directory: ./game
     - name: Compile elixir project
       run: MIX_ENV=test mix compile --force --warnings-as-errors
+      working-directory: ./game
     - name: Run tests
       run: mix test
+      working-directory: ./game
