@@ -45,9 +45,6 @@ jobs:
     - name: Install yarn dependencies
       run: yarn --cwd assets
       working-directory: ./game
-    - name: Compile assets
-      run: cd assets && ./node_modules/.bin/webpack --mode development
-      working-directory: ./game
     - name: Compile elixir deps
       run: MIX_ENV=test mix deps.compile
       working-directory: ./game
