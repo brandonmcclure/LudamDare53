@@ -1,0 +1,22 @@
+---
+version: "3.5"
+
+services:
+  elixir:
+    image: bmcclure89/elixir_devcontainer:latest
+    network_mode: service:db
+    command: sleep infinity
+    
+    volumes:
+        - type: bind
+          source: ..
+          target: /workspace
+  db:
+    image: postgres:latest
+    environment:
+        POSTGRES_USER: 'postgres'
+        POSTGRES_PASSWORD: 'postgres'
+        POSTGRES_DB: 'postgres'
+
+
+
