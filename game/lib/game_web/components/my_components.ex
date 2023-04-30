@@ -1,7 +1,6 @@
 defmodule GameWeb.MyComponents do
   use Phoenix.Component
-  alias Phoenix.LiveView.JS
-  import GameWeb.Gettext
+
 
   @doc """
   Do a thing. My thing
