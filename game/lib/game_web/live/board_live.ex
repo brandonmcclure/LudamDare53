@@ -72,6 +72,7 @@ defmodule GameWeb.BoardLive do
     newBS = new_socket.assigns.board_status
     # dbg(newBS)
     # Wow, this is not good elixir. I need to learn alot more about the Enum functions
+    oldInstance = nil
     thisInstance = for mapInstance <- newBS do
       # dbg(mapInstance)
       # dbg(params["targetx"])
@@ -83,15 +84,27 @@ defmodule GameWeb.BoardLive do
         if(mapInstance["y"] == String.to_integer(params["targety"])) do
         # dbg('found it')
         # dbg(mapInstance)
+        oldInstance = mapInstance
         mapInstance
-        |> put_in( ["status"], 2)
+        |> put_in( ["status"], oldInstance["status"]+1)
       end
     end
     end
     |> Enum.filter(& &1)
 
+
+    dbg(oldInstance)
      dbg(thisInstance)
-    {:noreply, new_socket}
+
+
+    #  newBS
+    #  |> Enum.map(fn
+    #   oldInstance -> thisInstance
+    #   other -> other
+    # end)
+      dbg(newBS)
+    {:noreply, new_socket
+    |> assign(:board_status, newBS)}
   end
 
   # def add_employee(employee_type, socket) do

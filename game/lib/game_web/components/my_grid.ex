@@ -7,7 +7,7 @@ defmodule GameWeb.MyGrid do
   attr :rest, :global, include: ~w(form)
   def grid_cell(assigns) do
 
-    dbg(assigns.status)
+    # dbg(assigns.status)
     imgURL = case {assigns.cell_type} do
       {"road"} -> case {assigns.status} do
         {1} -> "images/roadDL.png"
