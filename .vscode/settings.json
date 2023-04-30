@@ -1,0 +1,9 @@
+{"emeraldwalk.runonsave":{
+	"commands": [
+	  {
+		"match": "\\.ex|\\.heex",
+		"isAsync": true,
+		"cmd": "mix format ${file}"
+	  }
+	]
+}
