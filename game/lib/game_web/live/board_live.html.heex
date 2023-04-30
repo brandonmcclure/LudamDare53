@@ -8,4 +8,10 @@
       </div>
     </GameWeb.MyComponents.container>
 
- <GameWeb.MyGrid.grid title="Map 1" />
+<div style="display:grid;  grid-gap:1px;  grid-template-columns:repeat(6, [col] auto);  grid-template-rows:repeat(6, [row] auto);  background-color:#fff;  color:#444;">
+    <%= for item <- assigns[:board_status] do %>
+	<GameWeb.MyGrid.grid_cell grid_x={item["x"]} grid_y={item["y"]} cell_type={item["cell_type"]} />
+    <% end %>
+
+
+    </div>
