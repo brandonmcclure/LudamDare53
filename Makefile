@@ -23,7 +23,7 @@ ELIXIR_SOURCE_PATH := game/
 CD_TO_ELIXIR_SOURCE_PATH := cd $(ELIXIR_SOURCE_PATH);
 
 # Run Options
-RUN_PORTS := -p 3000:3000
+RUN_PORTS := -p 4005:4000
 
 build: getcommitid getbranchname
 	$(CD_TO_ELIXIR_SOURCE_PATH)docker build -t $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME)$(TAG) -t $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME):$(BRANCH_NAME) -t $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME):$(BRANCH_NAME)_$(COMMITID) .
@@ -33,7 +33,7 @@ run: build
 	docker run -d $(RUN_PORTS) $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME)$(TAG)
 
 run_it:
-	docker run -it $(RUN_PORTS) $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME)$(TAG)
+	docker run -it $(RUN_PORTS) --entrypoint /bin/bash $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME)$(TAG)
 
 package:
 	$$PackageFileName = "$$("$(IMAGE_NAME)" -replace "/","_").tar"; docker save $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME)$(TAG) -o $$PackageFileName
