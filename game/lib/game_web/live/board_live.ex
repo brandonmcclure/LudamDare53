@@ -4,11 +4,12 @@ defmodule GameWeb.BoardLive do
   @impl true
   def mount(_params, _session, socket) do
     dbg("Mounting new socket")
-
+    :timer.send_interval(1000, self(), :tick)
     {:ok,
      socket
      |> assign(:score, 0)
      |> assign(:page_title, "Delivery - Map 1")
+     |> assign(:seconds_left, 10)
      |> assign(:board_status, [
       %{"x" => 1, "y" => 1, "cell_type" => "start", "status" => 1 },
       %{"x" => 1, "y" => 2, "cell_type" => "road", "status" => 1 },
@@ -116,7 +117,18 @@ defmodule GameWeb.BoardLive do
     {:noreply, new_socket
     |> assign(:board_status, newnewBS)}
   end
+  def handle_info(:tick, %{assigns: %{seconds_left: seconds}} = socket) do
 
+    {:noreply,
+      socket
+      |> assign(:seconds_left, seconds - 1)}
+
+  end
+  def handle_info(:tick, %{assigns: %{seconds_left: 0}} = socket) do
+
+    {:noreply, socket |> assign(:seconds, 0)}
+
+  end
   # def add_employee(employee_type, socket) do
   #   cost = employees[String.to_atom(employee_type)]["cost"]
 
