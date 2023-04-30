@@ -11,8 +11,6 @@ processes = []
 
 [build]
 
-[deploy]
-  release_command = "/app/bin/migrate"
 
 [env]
   PHX_HOST = "ludamdare53.fly.dev"

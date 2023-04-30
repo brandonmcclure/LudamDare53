@@ -7,6 +7,7 @@ defmodule Game.Application do
 
   @impl true
   def start(_type, _args) do
+    Game.Release.migrate()
     children = [
       # Start the Telemetry supervisor
       GameWeb.Telemetry,

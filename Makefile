@@ -33,7 +33,7 @@ run: build
 	docker run -d $(RUN_PORTS) $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME)$(TAG)
 
 run_it:
-	docker run -it $(RUN_PORTS) --entrypoint /bin/bash $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME)$(TAG)
+	docker run -it $(RUN_PORTS) -e SECRET_KEY_BASE=kRLCGk8nV2MbLZYoTHyGKTBysh2nCl+hp3YPFTztLmLSElN/Domoo2QkrAC+2y41 --entrypoint /bin/bash $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME)$(TAG)
 
 package:
 	$$PackageFileName = "$$("$(IMAGE_NAME)" -replace "/","_").tar"; docker save $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME)$(TAG) -o $$PackageFileName
