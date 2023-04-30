@@ -13,8 +13,8 @@ defmodule GameWeb.MyGrid do
 
   """
   attr :title,:string, required: true
-  attr :grid_x,:integer, default: 4
-  attr :grid_y,:integer, default: 4
+  attr :grid_x,:integer, default: 6
+  attr :grid_y,:integer, default: 6
   attr :rest, :global, include: ~w(form)
   slot :inner_block, required: true
   def grid(assigns) do
@@ -24,19 +24,39 @@ defmodule GameWeb.MyGrid do
       <GameWeb.MyGrid.grid_cell grid_x={1} grid_y={1} cell_type={"start"} />
       <GameWeb.MyGrid.grid_cell grid_x={1} grid_y={2} cell_type={"road"} />
       <GameWeb.MyGrid.grid_cell grid_x={1} grid_y={3} cell_type={"road"} />
-      <GameWeb.MyGrid.grid_cell grid_x={1} grid_y={4} cell_type={"border"} />
+      <GameWeb.MyGrid.grid_cell grid_x={1} grid_y={4} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={1} grid_y={5} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={1} grid_y={6} cell_type={"border"} />
       <GameWeb.MyGrid.grid_cell grid_x={2} grid_y={1} cell_type={"border"} />
       <GameWeb.MyGrid.grid_cell grid_x={2} grid_y={2} cell_type={"road"} />
       <GameWeb.MyGrid.grid_cell grid_x={2} grid_y={3} cell_type={"road"} />
-      <GameWeb.MyGrid.grid_cell grid_x={2} grid_y={4} cell_type={"border"} />
+      <GameWeb.MyGrid.grid_cell grid_x={2} grid_y={4} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={2} grid_y={5} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={2} grid_y={6} cell_type={"border"} />
       <GameWeb.MyGrid.grid_cell grid_x={3} grid_y={1} cell_type={"border"} />
       <GameWeb.MyGrid.grid_cell grid_x={3} grid_y={2} cell_type={"road"} />
       <GameWeb.MyGrid.grid_cell grid_x={3} grid_y={3} cell_type={"road"} />
       <GameWeb.MyGrid.grid_cell grid_x={3} grid_y={4} cell_type={"road"} />
-      <GameWeb.MyGrid.grid_cell grid_x={3} grid_y={1} cell_type={"border"} />
-      <GameWeb.MyGrid.grid_cell grid_x={3} grid_y={2} cell_type={"road"} />
-      <GameWeb.MyGrid.grid_cell grid_x={3} grid_y={3} cell_type={"road"} />
-      <GameWeb.MyGrid.grid_cell grid_x={4} grid_y={4} cell_type={"end"} />
+      <GameWeb.MyGrid.grid_cell grid_x={3} grid_y={5} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={3} grid_y={6} cell_type={"border"} />
+      <GameWeb.MyGrid.grid_cell grid_x={4} grid_y={1} cell_type={"border"} />
+      <GameWeb.MyGrid.grid_cell grid_x={4} grid_y={2} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={4} grid_y={3} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={4} grid_y={4} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={4} grid_y={5} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={4} grid_y={6} cell_type={"border"} />
+      <GameWeb.MyGrid.grid_cell grid_x={5} grid_y={1} cell_type={"border"} />
+      <GameWeb.MyGrid.grid_cell grid_x={5} grid_y={2} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={5} grid_y={3} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={5} grid_y={4} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={5} grid_y={5} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={5} grid_y={6} cell_type={"border"} />
+      <GameWeb.MyGrid.grid_cell grid_x={6} grid_y={1} cell_type={"border"} />
+      <GameWeb.MyGrid.grid_cell grid_x={6} grid_y={2} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={6} grid_y={3} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={6} grid_y={4} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={6} grid_y={5} cell_type={"road"} />
+      <GameWeb.MyGrid.grid_cell grid_x={6} grid_y={6} cell_type={"end"} />
     </div>
     """
   end
@@ -52,10 +72,29 @@ defmodule GameWeb.MyGrid do
       {"road"} -> "images/roadDL.png"
       {"start"} -> "images/truck.png"
       {"border"} -> "images/border.png"
-      {"end"} -> "images/truck.png"
+      {"end"} -> "images/end.png"
     end
 
     assigns = assign(assigns, imgURL: imgURL)
+
+    click_event="UNDEFINED"
+    click_event = case {assigns.cell_type} do
+      {"road"} -> "road_rotate"
+      {"start"} -> "delivery"
+      {"border"} -> "nothing"
+      {"end"} -> "end_click"
+    end
+    assigns = assign(assigns, click_event: click_event)
+
+    css_class="text-black hover:bg-blue-800 rounded p-3"
+    css_class = case {assigns.cell_type} do
+      {"road"} -> "text-black"
+      {"start"} -> "text-black hover:bg-green-800"
+      {"border"} -> "text-black"
+      {"end"} -> "text-black hover:bg-red-800"
+    end
+    assigns = assign(assigns, css_class: css_class)
+
     dbg(assigns.cell_type)
     dbg(assigns.imgURL)
     dbg(assigns.cell_type == "end")
@@ -66,7 +105,7 @@ defmodule GameWeb.MyGrid do
     assigns = assign(assigns, imgSrc: imgSrc)
     ~H"""
     <div style={@style};>
-    <GameWeb.MyComponents.button phx-click="delivery"><img id="image" src={assigns.imgURL} /></GameWeb.MyComponents.button>
+    <GameWeb.MyComponents.button class={assigns.css_class} phx-click={assigns.click_event}><img id="image" src={assigns.imgURL} width="50" height="50" /></GameWeb.MyComponents.button>
     </div>
     """
   end
