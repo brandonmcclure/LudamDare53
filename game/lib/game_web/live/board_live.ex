@@ -64,11 +64,52 @@ defmodule GameWeb.BoardLive do
     {:noreply, new_socket}
   end
   @impl true
-  def handle_event("road_rotate", _params, socket) do
+  def handle_event("road_rotate", params, socket) do
 
     new_socket = socket
+    dbg(params)
+    dbg(new_socket)
+    newBS = new_socket.assigns.board_status
+    # dbg(newBS)
+    # Wow, this is not good elixir. I need to learn alot more about the Enum functions
+    thisInstance = for mapInstance <- newBS do
+      # dbg(mapInstance)
+      # dbg(params["targetx"])
+      # dbg(mapInstance["x"])
+      # dbg(String.to_integer(params["targety"]))
+      # dbg(mapInstance["y"])
+      if (mapInstance["x"] == String.to_integer(params["targetx"])) do
+        # dbg('found x')
+        if(mapInstance["y"] == String.to_integer(params["targety"])) do
+        # dbg('found it')
+        # dbg(mapInstance)
+        mapInstance
+        |> put_in( ["status"], 2)
+      end
+    end
+    end
+    |> Enum.filter(& &1)
 
+     dbg(thisInstance)
     {:noreply, new_socket}
   end
+
+  # def add_employee(employee_type, socket) do
+  #   cost = employees[String.to_atom(employee_type)]["cost"]
+
+  #   if socket.assigns.game.currency >= cost do
+  #     new_employee =
+  #       Map.put(
+  #         socket.assigns.game.employee_state,
+  #         employee_type,
+  #         employees[String.to_atom(employee_type)]
+  #       )
+
+  #     new_currency = socket.assigns.game.currency - cost
+  #     {new_employee, new_currency}
+  #   else
+  #     {socket.assigns.game.employee_state, socket.assigns.game.currency}
+  #   end
+  # end
 
 end

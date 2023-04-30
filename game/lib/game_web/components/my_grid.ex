@@ -3,13 +3,19 @@ defmodule GameWeb.MyGrid do
   attr :grid_x,:integer, required: true
   attr :grid_y,:integer, required: true
   attr :cell_type, :string, required: true
+  attr :status, :integer, required: true
   attr :rest, :global, include: ~w(form)
   def grid_cell(assigns) do
-    imgURL="images/roadLR.png"
 
-
+    dbg(assigns.status)
     imgURL = case {assigns.cell_type} do
-      {"road"} -> "images/roadDL.png"
+      {"road"} -> case {assigns.status} do
+        {1} -> "images/roadDL.png"
+        {2} -> "images/roadLR.png"
+        {3} -> "images/roadLU.png"
+        {4} -> "images/roadRD.png"
+        {_} -> "images/roadUD.png"
+      end
       {"start"} -> "images/truck.png"
       {"border"} -> "images/border.png"
       {"end"} -> "images/end.png"
@@ -17,7 +23,6 @@ defmodule GameWeb.MyGrid do
 
     assigns = assign(assigns, imgURL: imgURL)
 
-    click_event="UNDEFINED"
     click_event = case {assigns.cell_type} do
       {"road"} -> "road_rotate"
       {"start"} -> "delivery"
@@ -26,7 +31,6 @@ defmodule GameWeb.MyGrid do
     end
     assigns = assign(assigns, click_event: click_event)
 
-    css_class="text-black hover:bg-blue-800 rounded p-3"
     css_class = case {assigns.cell_type} do
       {"road"} -> "text-black"
       {"start"} -> "text-black hover:bg-green-800 rounded p-3"
@@ -45,7 +49,7 @@ defmodule GameWeb.MyGrid do
     assigns = assign(assigns, imgSrc: imgSrc)
     ~H"""
     <div style={@style};>
-    <GameWeb.MyComponents.button class={assigns.css_class} phx-click={assigns.click_event}><img id="image" src={assigns.imgURL} width="50" height="50" /></GameWeb.MyComponents.button>
+    <GameWeb.MyComponents.button class={assigns.css_class} phx-click={assigns.click_event} phx-value-targetx={assigns.grid_x} phx-value-targety={assigns.grid_y}><img id="image" src={assigns.imgURL} width="50" height="50" /></GameWeb.MyComponents.button>
     </div>
     """
   end
