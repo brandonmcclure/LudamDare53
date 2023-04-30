@@ -6,31 +6,12 @@ Theme is: `Delivery`
 
 [play me](https://ludamdare53.fly.dev/)
 
-## Brainstorming
+You are delivering <things> from <point a> to <point b>. You must clear the road for the trucks. Try to get the highest score in the time limit 
 
-Delivering boxes of things to people
+## Todo
 
-
-What things? does not matter.
-
-Gameplay? Scoring. Track people's score? no
-
-Pizza delivery game on roblox. 
-
-Transit oriented? Delivery trucks?
-
-How do you interact? Do you build the map? Clear traffic jams?
-
-Delivery my bullet to your face. 
-
-Delivery baby dinosaur to evil corp? 
-
-Deliver gold to a dragon liar? 
-
-Phoenix live view. Single player only. just click to increase your score. 
-
-Add difficulty. Something to prevent your delivery.
-
-How to let you customize/grow stronger. You click things. 
-
-Delivery can also mean set free. So you need to free or redeem something. 
+- splash screen
+- heex grid to click on
+- animate a truck
+- add timer
+- display the score/ui nicer
