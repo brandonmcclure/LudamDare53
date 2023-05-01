@@ -13,9 +13,11 @@ defmodule GameWeb.MyGrid do
         {"road"} ->
           case {assigns.status} do
             {1} -> "images/roadDL.png"
-            {2} -> "images/roadLR.png"
-            {3} -> "images/roadLU.png"
+            {2} -> "images/roadLU.png"
+            {3} -> "images/roadUR.png"
             {4} -> "images/roadRD.png"
+            {5} -> "images/roadUD.png"
+            {6} -> "images/roadLR.png"
             {_} -> "images/roadUD.png"
           end
 
