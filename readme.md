@@ -6,7 +6,7 @@ Theme is: `Delivery`
 
 [play me](https://ludamdare53.fly.dev/)
 
-You are delivering <things> from <point a> to <point b>. You must clear the road for the trucks. Try to get the highest score in the time limit 
+You are delivering <things> from <point a> to <point b>. You must clear the road for the trucks. Try to get the highest score in the time limit.
 
 ## Todo
 

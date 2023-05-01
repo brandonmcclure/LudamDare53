@@ -50,7 +50,8 @@ defmodule Game.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:phoenix_pubsub, "~> 2.0"}
+      {:phoenix_pubsub, "~> 2.0"},
+      {:pathfinding, "~> 0.1.0"}
     ]
   end
 
