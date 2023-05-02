@@ -38,7 +38,7 @@ defmodule GameWeb.MyGrid do
         {"road"} -> "road_rotate"
         {"start"} -> "delivery"
         {"border"} -> "nothing"
-        {"end"} -> "end_click"
+        {"end"} -> "nothing"
       end
 
     assigns = assign(assigns, click_event: click_event)
